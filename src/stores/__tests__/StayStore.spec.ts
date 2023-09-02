@@ -5,9 +5,6 @@ import { useStayStore } from '../StayStore'
 
 describe('Counter Store', () => {
   beforeEach(() => {
-    // creates a fresh pinia and make it active so it's automatically picked
-    // up by any useStore() call without having to pass it to it:
-    // `useStore(pinia)`
     setActivePinia(createPinia())
   })
 
@@ -16,5 +13,13 @@ describe('Counter Store', () => {
     expect(stayStore.$state).toBeDefined()
     expect(stayStore.$state.stays).toBeDefined()
     expect(stayStore.$state.stays).toBeInstanceOf(Array)
+  })
+
+  it('get locations by city and country', () => {
+    const stayStore = useStayStore()
+    expect(stayStore.getLocations('Cy')).toStrictEqual([{ city: 'Cyprus', country: 'Cyprus' }])
+    expect(stayStore.getLocations('cy')).toStrictEqual([{ city: 'Cyprus', country: 'Cyprus' }])
+    expect(stayStore.getLocations('oul')).toStrictEqual([{ city: 'Oulu', country: 'Finland' }])
+    expect(stayStore.getLocations('Finland')).toHaveLength(4)
   })
 })
