@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
 import StayCard from '../components/StayCard.vue'
+import '../assets/main.css'
 
 const meta = {
   title: 'StayCard',

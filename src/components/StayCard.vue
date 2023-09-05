@@ -1,5 +1,6 @@
 <template>
   <h1>{{ props.stay }}</h1>
+  <section></section>
 </template>
 
 <script lang="ts" setup>
