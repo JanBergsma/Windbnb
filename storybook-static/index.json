@@ -1,0 +1,1 @@
+{"v":4,"entries":{"staycard--docs":{"id":"staycard--docs","title":"StayCard","name":"Docs","importPath":"./src/stories/StayCard.stories.ts","type":"docs","tags":["autodocs","docs"],"storiesImports":[]},"staycard--default":{"type":"story","id":"staycard--default","name":"Default","title":"StayCard","importPath":"./src/stories/StayCard.stories.ts","tags":["autodocs","story"]}}}

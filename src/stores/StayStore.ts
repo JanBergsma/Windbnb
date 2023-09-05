@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import stays from '../data/stays.json'
+import { type Stay } from './Stay'
 
 interface Location {
   city: string | null
@@ -20,7 +21,7 @@ export const useStayStore = defineStore('StayStore', {
   },
   getters: {
     filterStays() {
-      return (args: FilterArguments) => {
+      return (args: FilterArguments): Stay[] => {
         return this.stays.filter(
           (stay) =>
             (typeof args.city === 'undefined' ||
