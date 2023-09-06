@@ -31,3 +31,20 @@ export const Default: Story = {
     }
   }
 }
+
+export const SuperHost: Story = {
+  args: {
+    stay: {
+      city: 'Oulu',
+      country: 'Finland',
+      superHost: true,
+      title: 'Cozy woodhouse flat with wooden sauna',
+      rating: 4.38,
+      maxGuests: 4,
+      type: 'Entire house',
+      beds: null,
+      photo:
+        'https://images.unsplash.com/photo-1522156373667-4c7234bbd804?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjF9&auto=format&fit=crop&w=930&q=80'
+    }
+  }
+}
