@@ -1,16 +1,11 @@
 import { defineStore } from 'pinia'
 import stays from '../data/stays.json'
 import { type Stay } from './Stay'
+import { type FilterArguments } from './FilterArguments'
 
 interface Location {
   city: string | null
   country: string | null
-}
-
-interface FilterArguments {
-  city?: string
-  country?: string
-  guests?: number
 }
 
 export const useStayStore = defineStore('StayStore', {
