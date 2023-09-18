@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
-import StayCardList from '../components/StayCardList.vue'
+import StayCardList from '@/components/StayCardList.vue'
 import '../assets/main.css'
 
 const meta = {
