@@ -2,7 +2,18 @@
   <div class="drawer">
     <div class="search-container">
       <div class="input-container">
-        <input type="search" name="locations" id="locations" placeholder="Add Locations" />
+        <input
+          type="search"
+          @keyup="
+            (e) =>
+              (locations = stayStore.getLocations(
+                e.target ? (e.target as HTMLInputElement).value : ''
+              ))
+          "
+          name="locations"
+          id="locations"
+          placeholder="Add Locations"
+        />
       </div>
       <div class="input-container">
         <input type="number" name="guests" id="guests" placeholder="Add guests" min="1" />
@@ -10,9 +21,19 @@
       <div class="input-container"><button class="btn-sm material-icons">search</button></div>
     </div>
   </div>
+  <div v-for="location in locations" :key="JSON.stringify(location)">
+    {{ location }}
+  </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import { type Location } from '@/stores/Location'
+import { type FilterArguments } from '@/stores/FilterArguments'
+import { useStayStore } from '@/stores/StayStore'
+const stayStore = useStayStore()
+const locations = ref(stayStore.getLocations(''))
+</script>
 
 <style locale>
 input {
