@@ -1,6 +1,8 @@
 <template>
-  <div class="staylist">
-    <StayCard v-for="stay in stays" :stay="stay" :key="stay.title" />
+  <div class="staylist-container">
+    <div class="staylist">
+      <StayCard v-for="stay in stays" :stay="stay" :key="stay.title" />
+    </div>
   </div>
 </template>
 
@@ -14,4 +16,24 @@ export interface Props {
 defineProps<Props>()
 </script>
 
-<style scoped></style>
+<style scoped>
+* {
+  box-sizing: border-box;
+}
+
+StayCard {
+  width: 100%;
+}
+.staylist-container {
+  container-type: inline-size;
+}
+
+@container (min-width: 780px) {
+  .staylist {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(auto-fill, auto);
+    gap: 1.6rem;
+  }
+}
+</style>

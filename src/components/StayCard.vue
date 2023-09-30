@@ -26,8 +26,10 @@ defineProps<Props>()
 
 <style scoped>
 figure {
-  display: grid;
+  display: 100%;
+  margin: auto;
 }
+
 img {
   width: 100%;
   aspect-ratio: 4/3;
