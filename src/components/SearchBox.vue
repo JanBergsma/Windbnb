@@ -20,7 +20,7 @@ let drawerOpen = false
 
 <style locale>
 * {
-  outline: red solid 1px;
+  /* outline: red solid 1px; */
   box-sizing: border-box;
 }
 .drawer {
