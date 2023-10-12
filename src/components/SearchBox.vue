@@ -10,7 +10,15 @@
         }"
       >
         <label for="location" class="lbl" v-if="drawerOpen"> LOCATION </label>
-        <input id="location" type="text" class="field" placeholder="Add location" />
+        <input
+          id="location"
+          type="text"
+          class="field"
+          placeholder="Add location"
+          :value="location || ''"
+          readonly
+          @click="clickLocation"
+        />
       </div>
       <div
         :class="{
@@ -21,7 +29,15 @@
         }"
       >
         <label for="guests" class="lbl" v-if="drawerOpen"> GUESTS</label>
-        <input id="guests" type="number" class="field" placeholder="Add guests" />
+        <input
+          id="guests"
+          type="number"
+          class="field"
+          placeholder="Add guests"
+          :value="guests || ''"
+          readonly
+          @click="clickGuests"
+        />
       </div>
       <div
         :class="{
@@ -31,36 +47,35 @@
           btn_container_closed: !drawerOpen
         }"
       >
-        <button :class="{ btn_open: drawerOpen, btn_closed: !drawerOpen }">
+        <button :class="{ btn_open: drawerOpen, btn_closed: !drawerOpen }" @click="search">
           <span class="material-icons search_icon">search</span
           ><span v-if="drawerOpen">Search</span>
         </button>
       </div>
-      <div class="container_open" v-if="drawerOpen">
+      <div class="container_open" v-if="drawerOpen && openLocations">
         <ol class="locations">
-          <li class="location">
-            <span class="material-icons location_icon">location_on</span>Helsinki, Finland
-          </li>
-          <li class="location">
-            <span class="material-icons location_icon">location_on</span>Turku, Finland
-          </li>
-          <li class="location">
-            <span class="material-icons location_icon">location_on</span>Oulu, Finland
-          </li>
-          <li class="location">
-            <span class="material-icons location_icon">location_on</span>Vaasa, Finland
+          <li
+            class="location"
+            v-for="({ city, country }, index) in locations"
+            :key="index"
+            :data-city="city"
+            :data-country="country"
+            @click="toggleLocationSelection"
+          >
+            <span class="material-icons location_icon">location_on</span>
+            {{ city }}, {{ country }}
           </li>
         </ol>
       </div>
-      <div class="container_guest_adder" v-if="drawerOpen">
+      <div class="container_guest_adder" v-if="drawerOpen && openGuestAdder">
         <div class="guest_adder_header">
-          <h4 class="guest_adder_header_title">Adults</h4>
-          <h5 class="guest_adder_header_count">Ages 13 or above</h5>
+          <h4 class="guest_adder_header_title">Guests</h4>
+          <h5 class="guest_adder_header_count">All ages</h5>
         </div>
         <div class="guest_adder">
-          <button class="plus_min">+</button>
-          <div class="number_of_guests">0</div>
-          <button class="plus_min">-</button>
+          <button class="plus_min" @click="plus">+</button>
+          <div class="number_of_guests">{{ !guests ? 0 : guests }}</div>
+          <button class="plus_min" @click="minus">-</button>
         </div>
       </div>
     </div>
@@ -68,7 +83,84 @@
 </template>
 
 <script lang="ts" setup>
-let drawerOpen = false
+import { ref } from 'vue'
+import { useStayStore } from '@/stores/StayStore'
+import { type Location } from '@/stores/Location'
+
+const emit = defineEmits<{
+  (e: 'search', location: Location): void
+}>()
+const drawerOpen = ref(false)
+
+const search = () => {
+  if (drawerOpen.value) {
+    const [city, country] = location.value.split(',').map((s) => s.trim())
+    emit('search', { city, country })
+  }
+  drawerOpen.value = !drawerOpen.value
+}
+
+const store = useStayStore()
+const locations = store.getLocations(null)
+
+locations.sort((a, b) => {
+  if (
+    a === null ||
+    b === null ||
+    a.city === undefined ||
+    a.city === null ||
+    b.city === undefined ||
+    b.city === null ||
+    a.country === undefined ||
+    a.country === null ||
+    b.country === undefined ||
+    b.country === null
+  )
+    throw new Error(`${a} and ${b} both should contain city and country!`)
+
+  if (a.city > b.city) {
+    return 1
+  } else if (a.city < b.city) {
+    return -1
+  }
+  if (a.country > b.country) {
+    return 1
+  } else if (a.country < b.country) {
+    return -1
+  }
+  return 0
+})
+
+const openLocations = ref(false)
+const location = ref('')
+const openGuestAdder = ref(false)
+const guests = ref(0)
+
+const clickLocation = () => {
+  drawerOpen.value = true
+  openLocations.value = true
+  openGuestAdder.value = false
+}
+const clickGuests = () => {
+  drawerOpen.value = true
+  openLocations.value = false
+  openGuestAdder.value = true
+}
+
+const toggleLocationSelection = (event: Event) => {
+  const city = (event.target as HTMLElement).dataset.city
+  const country = (event.target as HTMLElement).dataset.country
+  location.value = `${city}, ${country}`
+}
+
+const plus = () => {
+  ++guests.value
+}
+
+const minus = () => {
+  if (guests.value > 0) --guests.value
+  else guests.value = 0
+}
 </script>
 
 <style locale>
@@ -248,6 +340,12 @@ input[type='number'] {
   grid-auto-flow: column;
   box-shadow: 0px 1px 6px 0px #0000001a;
   border-radius: 12px;
+}
+
+@container (max-width: 400px) {
+  .drawer_closed {
+    grid-template-columns: 5fr 2fr 1fr;
+  }
 }
 
 .container_closed {
