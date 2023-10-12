@@ -85,17 +85,17 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useStayStore } from '@/stores/StayStore'
-import { type Location } from '@/stores/Location'
+import { type FilterArguments } from '@/stores/FilterArguments'
 
 const emit = defineEmits<{
-  (e: 'search', location: Location): void
+  (e: 'search', FilterArguments: FilterArguments): void
 }>()
 const drawerOpen = ref(false)
 
 const search = () => {
   if (drawerOpen.value) {
     const [city, country] = location.value.split(',').map((s) => s.trim())
-    emit('search', { city, country })
+    emit('search', { city, country, guests: guests.value })
   }
   drawerOpen.value = !drawerOpen.value
 }
@@ -342,7 +342,7 @@ input[type='number'] {
   border-radius: 12px;
 }
 
-@container (max-width: 400px) {
+@container (max-width: 380px) {
   .drawer_closed {
     grid-template-columns: 5fr 2fr 1fr;
   }
