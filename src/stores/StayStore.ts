@@ -25,7 +25,6 @@ export const useStayStore = defineStore('StayStore', {
     },
     getLocations() {
       return (searchTerm: string): Location[] => {
-        console.log(`searchTerm=${typeof searchTerm}, ${searchTerm}`)
         searchTerm = searchTerm !== null ? searchTerm.toLowerCase() : ''
         return Array.from(
           new Set(

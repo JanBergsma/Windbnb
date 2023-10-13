@@ -98,6 +98,7 @@ const search = () => {
     emit('search', { city, country, guests: guests.value })
   } else {
     openLocations.value = true
+    emit('search', {})
   }
   drawerOpen.value = !drawerOpen.value
 }
@@ -142,12 +143,14 @@ const clickLocation = () => {
   drawerOpen.value = true
   openLocations.value = true
   openGuestAdder.value = false
+  emit('search', {})
 }
 
 const clickGuests = () => {
   drawerOpen.value = true
   openLocations.value = false
   openGuestAdder.value = true
+  emit('search', {})
 }
 
 const toggleLocationSelection = (event: Event) => {
