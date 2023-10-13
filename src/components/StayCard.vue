@@ -10,7 +10,9 @@
         </div>
         <div class="rating"><span class="material-icons">star</span>{{ stay.rating }}</div>
       </div>
-      <h3>{{ stay.title }}</h3>
+      <!-- <h3>{{ stay.title }}</h3> -->
+      <!-- Injection Vulnerability only because data is trustedd-->
+      <h3 v-html="stay.title"></h3>
     </figcaption>
   </figure>
 </template>
@@ -26,8 +28,10 @@ defineProps<Props>()
 
 <style scoped>
 figure {
-  display: 100%;
-  margin: auto;
+  display: grid;
+  grid-template-rows: max-content;
+  margin: 0 auto;
+  align-content: stretch;
 }
 
 img {
@@ -56,6 +60,7 @@ figcaption {
   outline: solid 2px;
   border-radius: 20px;
   padding: 0.2rem 0.4rem;
+  margin: 0 0.8rem 0 0.2rem;
 }
 .type {
   color: #828282;

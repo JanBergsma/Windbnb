@@ -32,7 +32,7 @@ StayCard {
   .staylist {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(auto-fill, auto);
+    grid-template-rows: repeat(auto, 1fr);
     gap: 1.6rem;
   }
 }

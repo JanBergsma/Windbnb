@@ -96,12 +96,14 @@ const search = () => {
   if (drawerOpen.value) {
     const [city, country] = location.value.split(',').map((s) => s.trim())
     emit('search', { city, country, guests: guests.value })
+  } else {
+    openLocations.value = true
   }
   drawerOpen.value = !drawerOpen.value
 }
 
 const store = useStayStore()
-const locations = store.getLocations(null)
+const locations = store.getLocations('')
 
 locations.sort((a, b) => {
   if (
@@ -141,6 +143,7 @@ const clickLocation = () => {
   openLocations.value = true
   openGuestAdder.value = false
 }
+
 const clickGuests = () => {
   drawerOpen.value = true
   openLocations.value = false
